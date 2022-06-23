@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Cliente;
+use App\Http\Controllers\ClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('clientes', [ClienteController::class, 'index']);
+Route::get('clientes/{id}',[ClienteController::class, 'show']);
+Route::post('clientes', [ClienteController::class, 'store']);
+Route::put('clientes/{id}', [ClienteController::class, 'update']);
+Route::patch('clientes/{id}', [ClienteController::class, 'update']);
+Route::delete('clientes/{id}', [ClienteController::class, 'destroy']);
