@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Cliente;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\ClienteController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::post('login', [UserController::class,'authenticate']);
+
 
 Route::get('clientes', [ClienteController::class, 'index']);
 Route::get('clientes/{id}',[ClienteController::class, 'show']);
