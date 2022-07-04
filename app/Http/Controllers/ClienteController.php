@@ -35,7 +35,12 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-      
+            $usuario=$request->attributes->get('usuario');
+            $rol=$usuario->data->rol;
+            if ($rol!='admin') {
+                return response()->json(['error'=>'No tienes permiso para realizar esta acción'],401);
+            }
+           
             return Cliente::create($request->all());
      
     }

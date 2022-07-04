@@ -21,12 +21,14 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // });
 
-Route::post('login', [UserController::class,'authenticate']);
+Route::post('login', [UserController::class, 'authenticate']);
 
 
-Route::get('clientes', [ClienteController::class, 'index']);
-Route::get('clientes/{id}',[ClienteController::class, 'show']);
-Route::post('clientes', [ClienteController::class, 'store']);
-Route::put('clientes/{id}', [ClienteController::class, 'update']);
-Route::patch('clientes/{id}', [ClienteController::class, 'update']);
-Route::delete('clientes/{id}', [ClienteController::class, 'destroy']);
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::get('clientes', [ClienteController::class, 'index']);
+    Route::get('clientes/{id}', [ClienteController::class, 'show']);
+    Route::post('clientes', [ClienteController::class, 'store']);
+    Route::put('clientes/{id}', [ClienteController::class, 'update']);
+    Route::patch('clientes/{id}', [ClienteController::class, 'update']);
+    Route::delete('clientes/{id}', [ClienteController::class, 'destroy']);
+});

@@ -31,6 +31,7 @@ class UserController extends Controller
                 'data' => [ // información del usuario
                     'name' => $usuario->name,
                     'email' => $usuario->email,
+                    'rol' => $usuario->rol,
                 ]
             );
             $jwt = JWT::encode($token, $key,'HS256');
