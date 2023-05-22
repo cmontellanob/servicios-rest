@@ -1,0 +1,24 @@
+FROM adhocore/lemp:7.4
+
+# Clear cache
+RUN apk add --no-cache \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libwebp-dev \
+        libpng-dev
+RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg && \
+    docker-php-ext-install gd
+
+
+# Get latest Composer
+
+WORKDIR /var/www/html
+COPY . .
+RUN cp .env.prod .env
+RUN chown -R www-data:www-data /var/www/html
+RUN composer install
+RUN chmod o+w ./storage/ -R
+RUN chmod o+w ./public/ -R
+
+RUN chmod o+w /var/www/html/storage/ -R
+RUN chmod o+w /var/www/html/public/ -R

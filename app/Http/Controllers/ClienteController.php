@@ -17,15 +17,6 @@ class ClienteController extends Controller
         return Cliente::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,14 +26,13 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-            $usuario=$request->attributes->get('usuario');
-            $rol=$usuario->data->rol;
-            if ($rol!='admin') {
-                return response()->json(['error'=>'No tienes permiso para realizar esta acción'],401);
-            }
-           
-            return Cliente::create($request->all());
-     
+        // $usuario = $request->attributes->get('usuario');
+        // $rol = $usuario->data->rol;
+        // if ($rol != 'admin') {
+        //     return response()->json(['error' => 'No tienes permiso para realizar esta acción'], 401);
+        // }
+
+        return Cliente::create($request->all());
     }
 
     /**
@@ -53,19 +43,21 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
+        $cliente = Cliente::find($id);
+        if ($cliente == null) {
+
+            return response()->json(
+                [
+                    "resultado" => false,
+                    "mensaje" => "Cliente no encontrado"
+                ],
+                404
+            );
+        }
         return Cliente::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cliente $cliente)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -76,9 +68,20 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $cliente = Cliente::findOrFail($id);
-            $cliente->update($request->all());
-            return $cliente;
+        $cliente = Cliente::find($id);
+        if ($cliente == null) {
+
+            return response()->json(
+                [
+                    "resultado" => false,
+                    "mensaje" => "Cliente no encontrado"
+                ],
+                404
+            );
+        }
+
+        $cliente->update($request->all());
+        return $cliente;
     }
 
     /**
@@ -89,9 +92,17 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-       $cliente=Cliente::findOrFail($id); 
-         $cliente->delete();
-       return $cliente ;
-    
+        $cliente=Cliente::find($id);
+        if ($cliente==null)
+        {
+            
+            return response()->json(
+               [ "resultado"=>false,
+                "mensaje"=>"Cliente no encontrado"
+               ]
+            ,404);
+        }
+        $cliente->delete();
+        return $cliente;
     }
 }

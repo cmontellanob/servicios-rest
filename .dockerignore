@@ -1,0 +1,11 @@
+vendor
+public/backups
+public/biblioteca
+public/documentos
+public/estadisticas
+public/images
+public/miniaturas
+public/videos
+.env
+.git
+.editorconfig
